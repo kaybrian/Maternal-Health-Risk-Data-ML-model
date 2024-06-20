@@ -48,6 +48,40 @@ Data has been collected from different hospitals, community clinics, maternal he
 - Risk Level: Predicted Risk Intensity Level during pregnancy considering the previous attribute.
 
 
-# How to use the project
+## How to use the project
 In order to run the model localy on your machine, please follow the following steps to get started
+
+
+# Findings about the data
+For the start, the data consisted of the following attributes
+- Age
+- SystolicBP
+- DiastolicBP
+- BS
+- BodyTemp
+- HeartRate
+- RiskLevel
+
+The data was then cleaned and preprocessed to remove any missing values and outliers. The data was then split into training and testing sets. The model was then trained on the training set and tested on the testing set. The model was able to predict the risk level of the patient with an accuracy of 0.85. The model was then saved and can be used to predict the risk level of a patient given the input data.
+
+## changing the Categorical Data to the numerical data
+During the Data preprocessing, the categorical data was converted to numerical data. The Risk Level was converted to numerical data as follows:
+
+- low risk: 0
+- mid risk : 1
+- high risk: 2
+
+##outliers in the data
+During the Data preprocessing, We noticed a few outliers in the data. Most of the outliers came from the age attribute. We noticed that there we ladies with the age of 10 that were pregnant. We decided to remove these outliers.
+
+
+## Modeling
+In the modeling section, we used two models,
+- We built a custom model using Tensorflow and Keras
+- We also built another model using the scikit-learn library (Decision Tree Classifier)
+
+The model was trained on the training set and tested on the testing set. The model was able to predict the risk level of the patient with an accuracy of 0.85. The model was then saved and can be used to predict the risk level of a patient given the input data.
+
+## Conclusion
+The project was able to predict the risk level of a patient given the input data. And we Decided to move on with the Decision Tree Classifier model. The model was able to predict the risk level of the patient with an accuracy of 0.85. The model was then saved and can be used to predict the risk level of a patient given the input data.
 
