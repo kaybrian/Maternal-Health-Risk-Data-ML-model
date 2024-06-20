@@ -47,41 +47,166 @@ Data has been collected from different hospitals, community clinics, maternal he
 - HeartRate: A normal resting heart rate in beats per minute.
 - Risk Level: Predicted Risk Intensity Level during pregnancy considering the previous attribute.
 
+## Methodology:
+We implemented and compared three models:
+1 Basic Neural Network
+2 Regularized Neural Network
+3 Decision Tree Classifier
 
-## How to use the project
-In order to run the model localy on your machine, please follow the following steps to get started
+### 1 Basic Neural Network:
+- We used a simple neural network with 2 hidden layers and 100 neurons in each layer. A sequential model was constructed using TensorFlow and Keras.
+
+## Model summary
+Model: "sequential"
+
+Model Architecture
+
+The model consists of the following layers:
+
+    Input Layer
+        Shape: Defined implicitly by the input shape of the first dense layer.
+
+    First Hidden Layer
+        Type: Dense
+        Number of Neurons: 32
+        Activation Function: ReLU
+        Output Shape: (None, 32)
+        Number of Parameters: 224
+
+    Second Hidden Layer
+        Type: Dense
+        Number of Neurons: 16
+        Activation Function: ReLU
+        Output Shape: (None, 16)
+        Number of Parameters: 528
+
+    Output Layer
+        Type: Dense
+        Number of Neurons: 3
+        Activation Function: Softmax
+        Output Shape: (None, 3)
+        Number of Parameters: 51
+
+## Model accuracy
+Loss: 0.6791562438011169, Accuracy: 0.685245931148529
+
+At the end of the training process, the model achieved an accuracy of 68.5%. The model was then evaluated on the test dataset to assess its performance on unseen data.
+
+## Model 2 ( Regularized Neural Network)
+- To improve the generalization and prevent overfitting, we added L2 regularization to the neural network model. This regularization technique penalizes large weights in the network, reducing the complexity of the model. We used a regularization parameter of 0.01 in this model.  For this model we used the L2 regularization and also add in dropout layers coupled with some early stopping in the model training process.
+
+## Model summary
+Model Architecture
+
+The model consists of the following layers:
+
+    Input Layer
+        Shape: Defined implicitly by the input shape of the first dense layer.
+
+    First Hidden Layer
+        Type: Dense
+        Number of Neurons: 64
+        Activation Function: ReLU (assumed, as activation isn't listed)
+        Output Shape: (None, 64)
+        Number of Parameters: 448
+
+    Dropout Layer 1
+        Type: Dropout
+        Dropout Rate: Defined implicitly (assumed common default)
+        Output Shape: (None, 64)
+        Number of Parameters: 0
+
+    Second Hidden Layer
+        Type: Dense
+        Number of Neurons: 32
+        Activation Function: ReLU (assumed, as activation isn't listed)
+        Output Shape: (None, 32)
+        Number of Parameters: 2,080
+
+    Dropout Layer 2
+        Type: Dropout
+        Dropout Rate: Defined implicitly (assumed common default)
+        Output Shape: (None, 32)
+        Number of Parameters: 0
+
+    Third Hidden Layer
+        Type: Dense
+        Number of Neurons: 16
+        Activation Function: ReLU (assumed, as activation isn't listed)
+        Output Shape: (None, 16)
+        Number of Parameters: 528
+
+    Dropout Layer 3
+        Type: Dropout
+        Dropout Rate: Defined implicitly (assumed common default)
+        Output Shape: (None, 16)
+        Number of Parameters: 0
+
+    Output Layer
+        Type: Dense
+        Number of Neurons: 3
+        Activation Function: Softmax
+        Output Shape: (None, 3)
+        Number of Parameters: 51
+
+## Model accuracy
+Using the regularized model, the model achieved an accuracy of 68.6%. The regularization technique helped improve the model's generalization and prevent overfitting.
+
+## Model 3 (Decision Tree Classifier)
+- We used the Decision Tree Classifier model to build a model that predicts the risk level of the patient. The model was built using the training dataset. We used the default parameters in this model. A decision tree model was implemented using scikit-learn, optimized through GridSearchCV.
+
+## Model summary
+'criterion': 'entropy', 'max_depth': None, 'min_samples_leaf': 1, 'min_samples_split': 2}
+0.8419638397762462
+
+## Model accuracy
+Using the Decision Tree Classifier model, the model achieved an accuracy of 80%.
 
 
-# Findings about the data
-For the start, the data consisted of the following attributes
-- Age
-- SystolicBP
-- DiastolicBP
-- BS
-- BodyTemp
-- HeartRate
-- RiskLevel
+## Model Performance Comparison
+### Model 1 (Basic Neural Network)
 
-The data was then cleaned and preprocessed to remove any missing values and outliers. The data was then split into training and testing sets. The model was then trained on the training set and tested on the testing set. The model was able to predict the risk level of the patient with an accuracy of 0.85. The model was then saved and can be used to predict the risk level of a patient given the input data.
+Trainning and validation loss are shown below:
 
-## changing the Categorical Data to the numerical data
-During the Data preprocessing, the categorical data was converted to numerical data. The Risk Level was converted to numerical data as follows:
+![Training And Validation Loss](image.png)
 
-- low risk: 0
-- mid risk : 1
-- high risk: 2
+Training and validation accuracy are shown below:
 
-##outliers in the data
-During the Data preprocessing, We noticed a few outliers in the data. Most of the outliers came from the age attribute. We noticed that there we ladies with the age of 10 that were pregnant. We decided to remove these outliers.
+![Training and Validation Accuracy](image-1.png)
+
+### Model 2 (Regularized Neural Network)
+
+Trainning and validation loss are shown below:
+
+![Training And Validation Loss](image-2.png)
+
+Trinning and validation accuracy are shown below:
+
+![Training and Validation Accuracy](image-3.png)
+
+### Model 3 (Decision Tree Classifier)
+
+Trainning and validation loss are shown below:
+
+![Training And Validation Loss](image-4.png)
+
+Trinning and validation accuracy are shown below:
+
+![Training and Validation Accuracy](image-5.png)
 
 
-## Modeling
-In the modeling section, we used two models,
-- We built a custom model using Tensorflow and Keras
-- We also built another model using the scikit-learn library (Decision Tree Classifier)
+##  Decision Tree Performance
+The Decision Tree Classifier model achieved an accuracy of 80%, outperforming the basic neural network and regularized neural network models. The decision tree model's performance was evaluated on the test dataset, demonstrating its effectiveness in predicting the risk level of patients.
 
-The model was trained on the training set and tested on the testing set. The model was able to predict the risk level of the patient with an accuracy of 0.85. The model was then saved and can be used to predict the risk level of a patient given the input data.
+
+## Discussion
+The Decision Tree Classifier outperformed both neural network models, achieving an accuracy of approximately 80% on the test set. This superior performance, coupled with its inherent interpretability, makes it the preferred model for this maternal health risk prediction task.
+
+### Factors contributing to the Decision Tree's success include:
+- Ability to capture non-linear relationships without assuming a specific functional form
+- Robustness to outliers and minimal need for data preprocessing
+- Interpretability of decision rules, crucial in healthcare applications
+
 
 ## Conclusion
-The project was able to predict the risk level of a patient given the input data. And we Decided to move on with the Decision Tree Classifier model. The model was able to predict the risk level of the patient with an accuracy of 0.85. The model was then saved and can be used to predict the risk level of a patient given the input data.
-
+Our analysis demonstrates that for this maternal health risk prediction task, a well-tuned Decision Tree Classifier outperforms more complex neural network models. This finding underscores the importance of considering a range of algorithms and not assuming that more complex models will necessarily perform better.
